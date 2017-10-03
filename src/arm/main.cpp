@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "display.cpp"
+#include "../../lib/display.cpp"
 //#include "mesh.h"
 //#include "shader.h"
 //#include "texture.h"
