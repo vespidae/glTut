@@ -1,7 +1,8 @@
+#define GLEW_STATIC
 #include <iostream>
+#include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <GLFW/glfw3.h>
 #include <thread>
 //#include "../../lib/display.cpp"
 //#include "mesh.h"
