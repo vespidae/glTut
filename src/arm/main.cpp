@@ -33,8 +33,16 @@ int main(int argc, char *argv[])
     //Create OpenGL context
     SDL_GLContext context = SDL_GL_CreateContext(window);
 
-    //Delete OpenGL context, cleaning up the resources
-    SDL_GL_DeleteContext(context);
+    //Query and load OpenGL extensions
+    //Force GLEW to use a modern OpenGL method for checking if a function is available
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    //Generate buffers
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+
+    printf("%u\n", vertexBuffer);
 
     //Event loop
     SDL_Event windowEvent;
@@ -49,6 +57,9 @@ int main(int argc, char *argv[])
         //Swap front and back buffer after new thing has been drawn by application
         SDL_GL_SwapWindow(window);
     }
+
+    //Delete OpenGL context, cleaning up the resources
+    SDL_GL_DeleteContext(context);
 
     //Destroy window and graphics surface
     SDL_Quit();
