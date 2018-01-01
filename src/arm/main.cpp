@@ -11,6 +11,9 @@
 //#include "transform.h"
 //#include "camera.h"
 
+#version 150 //"the following code is GLSL 1.50 code"
+in vec2 position; //specify vertex attribute
+
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
 
@@ -38,11 +41,28 @@ int main(int argc, char *argv[])
     glewExperimental = GL_TRUE;
     glewInit();
 
-    //Generate buffers
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
+    //Initialize veritces
+    float vertices[] = {
+        0.0f, 0.5f,     //vertex 1
+        0.5f, -0.5f,    //vertex 2
+        -0.5f, -0.5f    //vertex 3
+    };
 
-    printf("%u\n", vertexBuffer);
+    //Generate buffers
+    //Generate vertex buffer object
+    GLuint vertexBufferObjectTri;
+    
+    //Memory for the graphics card is managed by OpenGL
+    //Instead of pointers, cross-platform substitutes for unsigned integers are used to reference buffers
+    glGenBuffers(1, &vertexBufferObjectTri);
+
+    //Make our VBO the the active object to upload data to it
+    //specifically the active array buffer
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+    //Copy vertex data to active object
+
+    printf("%u\n", vertexBufferObjectTri);
 
     //Event loop
     SDL_Event windowEvent;
