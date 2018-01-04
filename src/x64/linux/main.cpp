@@ -1,18 +1,18 @@
 #define GLEW_STATIC
 #include <iostream>
-#include <GL/glew.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
+#include "../../../include/GL/glew.h"
+#include "../../../include/SDL2/SDL.h"
+#include "../../../SDL2/SDL_opengl.h"
 #include <thread>
-//#include "../../lib/display.cpp"
+#include "../../../lib/x64/linux/display.cpp"
 //#include "mesh.h"
 //#include "shader.h"
 //#include "texture.h"
 //#include "transform.h"
 //#include "camera.h"
 
-#version 150 //"the following code is GLSL 1.50 code"
-in vec2 position; //specify vertex attribute
+//#version 150 //"the following code is GLSL 1.50 code"
+//in vec2 position; //specify vertex attribute
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     //Make our VBO the the active object to upload data to it
     //specifically the active array buffer
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectTri);
 
     //Copy vertex data to active object
 

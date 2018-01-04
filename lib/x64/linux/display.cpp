@@ -1,5 +1,5 @@
-#include "..\..\include\display.h"
-#include "..\..\include\GL\glew.h"
+#include "../../../include/x64/linux/display.h"
+#include "../../../include/GL/glew.h"
 #include <iostream>
 
 Display::Display(int width, int height, const std::string& title)
