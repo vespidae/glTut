@@ -1,0 +1,61 @@
+    //Define our viewport
+//    glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+
+    //Build, source, and compile vertex shader
+    GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
+    glShaderSource( vertexShader, 1, &vertexShaderSource , NULL );
+    glCompileShader( vertexShader );
+
+    //Check for compile errors
+    GLint glGoodComp;
+    GLchar glCompInfoLog[512];
+
+    glGetShaderiv( vertexShader, GL_COMPILE_STATUS, &glGoodComp );
+    if ( !glGoodComp )
+    {
+	glGetShaderInfoLog( vertexShader, 512, NULL, glCompInfoLog );
+	std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << glCompInfoLog << std::endl;
+    }
+
+    //Build, source, and compile fragment shader
+    GLuint fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
+    glShaderSource( fragmentShader, 1, &fragmentShaderSource, NULL );
+    glCompileShader( fragmentShader );
+
+    //Check for compile errors
+    glGetShaderiv( fragmentShader, GL_COMPILE_STATUS, &glGoodComp );
+    if ( !glGoodComp )
+    {
+	glGetShaderInfoLog( vertexShader, 512, NULL, glCompInfoLog );
+	std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << glCompInfoLog << std::endl;
+    }
+
+    //Link shaders by attaching them to shader program
+    GLuint shaderProgram = glCreateProgram();
+    glAttachShader( shaderProgram, vertexShader );
+    glAttachShader( shaderProgram, fragmentShader );
+    glLinkProgram( shaderProgram );
+
+    //Check for linking errors
+    GLint glGoodLink;
+    GLchar glLinkInfoLog[512];
+
+    glGetProgramiv( shaderProgram, GL_LINK_STATUS, &glGoodLink );
+    if ( !glGoodLink )
+    {
+	glGetProgramInfoLog( shaderProgram, 512, NULL, glLinkInfoLog );
+	std::cout << "ERROR::SHADER:PROGRAM::LINKING_FAILED\n" << glLinkInfoLog << std::endl;
+    }
+
+    //Delete vertex and fragment shader, 
+    //since the shader program has already been created from them
+    glDeleteShader( vertexShader );
+    glDeleteShader( fragmentShader );
+
+    //Create vertex data
+    //Initialize veritces
+//    GLfloat glVerticesTri[] = {
+        0.0f, 0.5f, 0.0f,     //vertex 1
+        0.5f, -0.5f, 0.0f,    //vertex 2
+        -0.5f, -0.5f, 0.0f    //vertex 3
+    };
