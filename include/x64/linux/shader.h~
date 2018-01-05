@@ -49,10 +49,6 @@ class Shader
                             std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
                         }
 
-                        const GLchar* vShaderCode = vertexCode.c_str();
-                        const GLchar* fShaderCode = fragmentCode.c_str();
-
-
 
 
 		}
