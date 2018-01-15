@@ -8,16 +8,10 @@
 
 #include <../../GL/glew.h>
 
-//#include "../../../include/x64/linux/coreVS.cpp"
-//#include "../../../include/x64/linux/coreFS.cpp"
-
 class Shader
 {
     public:
         GLuint Program;
-
-        const GLchar* vShaderSource;
-        const GLchar* fShaderSource;
 
         //constructor generates shader on the fly
         Shader( const GLchar* vertexPath, const GLchar* fragmentPath )
@@ -56,45 +50,12 @@ class Shader
                 std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
             }
 
-            const GLchar* vIn = vertexCode.c_str();
-            const GLchar* fIn = fragmentCode.c_str();
-
-            //Screw it
-            if ( vShaderSource != "" && fShaderSource != "")
-            {
-                vShaderSource = "#version 330 core\n"
-
-                    "layout ( location = 0 ) in vec3 position;\n"
-                    "layout ( location = 1 ) in vec3 color;\n"
-
-                    "out vec3 ourColor;\n"
-
-                    "void main()\n"
-                    "{\n"
-                    "    gl_Position = vec4 ( position, 1.0 );\n"
-                    "    ourColor = color;\n"
-                    "}\n";
-
-
-                fShaderSource = "#version 330 core\n"
-
-                    "in vec3 ourColor;\n"
-
-                    "out vec4 color;\n"
-
-                    "void main()\n"
-                    "{\n"
-                    "    color = vec4 ( ourColor, 1.0f );\n"
-                    "}\n";
-            }else
-            {
-                vShaderSource = vIn;
-                fShaderSource = fIn;
-            }
+            const GLchar* vShaderSource = vertexCode.c_str();
+            const GLchar* fShaderSource = fragmentCode.c_str();
 
             //Test Code contents
-            //std::cout << "Vertex Code:\n" << vShaderSource << std::endl;
-            //std::cout << "Fragment Code:\n" << fShaderSource << std::endl;
+            std::cout << "Vertex Code:\n" << vShaderSource << std::endl;
+            std::cout << "Fragment Code:\n" << fShaderSource << std::endl;
 
             //Compile Shaders
             GLuint vertex, fragment;

@@ -8,6 +8,7 @@
 #include "../../../include/SDL2/SDL_opengl.h"
 #include "../../../include/x64/linux/shader.h"
 #include "../../../lib/x64/linux/display.cpp"
+
 //#include "mesh.h"
 //#include "shader.h"
 //#include "texture.h"
@@ -16,22 +17,6 @@
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
-
-//Handle location/positioning
-const GLchar* vertexShaderSource = "#version 330 core\n"
-"layout ( location = 0 )in vec3 position;\n"
-"void main()\n"
-"{\n"
-"	gl_Position = vec4 ( position.x, position.y, position.z, 1.0 );\n"
-"}";
-
-//Handle color
-const GLchar* fragmentShaderSource = "#version 330 core \n"
-"out vec4 color;\n"
-"void main()\n"
-"{\n"
-"	color = vec4 ( 1.0f, 0.5f, 0.2f, 1.0f );\n"
-"}";
 
 int main(int argc, char *argv[])
 {
@@ -47,7 +32,7 @@ int main(int argc, char *argv[])
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
     //Create a window(title, x, y, width, height, window properties)
-    SDL_Window* window = SDL_CreateWindow("OpenGL", 100, 100, DISPLAY_WIDTH, DISPLAY_HEIGHT, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow("OpenGL", 600, 100, DISPLAY_WIDTH, DISPLAY_HEIGHT, SDL_WINDOW_OPENGL);
 
     //Create OpenGL context
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
@@ -67,12 +52,16 @@ int main(int argc, char *argv[])
     //Define our viewport
     glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
+    //Create full shader program based on shader header file definition
+    Shader shaTri( "../../../include/x64/linux/core.vs", "../../../include/x64/linux/core.fs" );
+    
     //Create vertex data
     //Initialize veritces
+    //float X, float Y, float Z, float R, float G, float B
     GLfloat glVerticesTri[] = {
-        0.0f, 0.5f, 0.0f,     //vertex 1
-        0.5f, -0.5f, 0.0f,    //vertex 2
-        -0.5f, -0.5f, 0.0f    //vertex 3
+         0.0f,  0.5f,  0.0f,    0.0f, 0.0f, 1.0f,  //middle top
+         0.5f, -0.5f,  0.0f,    0.0f, 1.0f, 0.0f,  //bottom right
+        -0.5f, -0.5f,  0.0f,    1.0f, 0.0f, 0.0f   //bottom left
     };
 
     //Generate vertex buffer object and vertex array object
@@ -93,13 +82,20 @@ int main(int argc, char *argv[])
 
     //Create vertex pointer
     //point to start, number of sets of vertices, data type, ???, ???, ???
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE , 3 * sizeof( GLfloat ), ( GLvoid * ) 0 );
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE , 6 * sizeof( GLfloat ), ( GLvoid * ) 0 );
 
     //Enable vertex array
     glEnableVertexAttribArray( 0 );
 
+    //Create vertex pointer
+    //point to start, number of sets of vertices, data type, ???, ???, ???
+    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE , 6 * sizeof( GLfloat ), ( GLvoid * ) ( 3 * sizeof( GLfloat ) ) );
+
+    //Enable vertex array
+    glEnableVertexAttribArray( 1 );
+
     //Unbind vertex buffer/array
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    // commented out the following: glBindBuffer( GL_ARRAY_BUFFER, 0 );
     glBindVertexArray( 0 );
 
     //Copy vertex data to active object
@@ -127,7 +123,8 @@ int main(int argc, char *argv[])
 
 	//Draw via OpenGL
 	//Use created shader program and bind vertex array object
-	glUseProgram( shaderProgram );
+	//commented out the following: glUseProgram( shaderProgram );
+        shaTri.Use();
 	glBindVertexArray( vtxArrObjTri );
 
 	//Actually draw object 
