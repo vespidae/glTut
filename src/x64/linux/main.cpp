@@ -7,6 +7,7 @@
 #include "../../../include/SDL2/SDL.h"
 #include "../../../include/SDL2/SDL_opengl.h"
 #include "../../../include/x64/linux/shader.h"
+#include "../../../include/SOIL2/SOIL2.h"
 #include "../../../lib/x64/linux/display.cpp"
 
 //#include "mesh.h"
@@ -52,20 +53,38 @@ int main(int argc, char *argv[])
     //Define our viewport
     glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
+    //Enable alpha support
+    glEnable( GL_BLEND );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+
     //Create full shader program based on shader header file definition
     Shader shaTri( "../../../include/x64/linux/core.vs", "../../../include/x64/linux/core.fs" );
     
     //Create vertex data
     //Initialize veritces
-    //float X, float Y, float Z, float R, float G, float B
+    //float X, float Y, float Z, float R, float G, float B, float texture 
     GLfloat glVerticesTri[] = {
          0.0f,  0.5f,  0.0f,    0.0f, 0.0f, 1.0f,  //middle top
          0.5f, -0.5f,  0.0f,    0.0f, 1.0f, 0.0f,  //bottom right
         -0.5f, -0.5f,  0.0f,    1.0f, 0.0f, 0.0f   //bottom left
     };
 
+    //float X, float Y, float Z, float R, float G, float B, float texture X, float texture Y
+    GLfloat glVerticesRect[] = {
+          0.5f,  0.5f,  0.0f,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,    //top right
+          0.5f, -0.5f,  0.0f,    0.0f, 1.0f, 0.0f,    1.0f, 0.0f,    //bottom right
+         -0.5f, -0.5f,  0.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f,    //bottom left
+         -0.5f,  0.5f,  0.0f,    0.0f, 0.0f, 0.0f,    0.0f, 1.0f    //top left
+    };
+
+    //Establish triangles from with quadrilateral will be formed
+    GLuint indices[] = {
+        0, 1, 3,    //first triangle
+        1, 2, 3     //second triangle
+    };
+
     //Generate vertex buffer object and vertex array object
-    GLuint vtxBufObjTri, vtxArrObjTri;
+    GLuint vtxArrObjTri, vtxBufObjTri, vtxArrObjRect, vtxBufObjRect;
 
     //Memory for the graphics card is managed by OpenGL
     //Instead of pointers, cross-platform substitutes for unsigned integers are used to reference buffers
